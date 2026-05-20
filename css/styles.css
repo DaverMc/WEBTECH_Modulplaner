@@ -143,6 +143,7 @@ h2 {
 .popup_button {
     background-color: #262936;
     border-radius: 5px;
+    color: whitesmoke;
 }
 
 #slot_submit {

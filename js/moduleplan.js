@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const doubleDialog = document.getElementById("doubled_slot_popup");
     document.getElementById("doubled_overwrite").addEventListener("click", function() {
-        onDoubledSlotOverwrite(doubleDialog);
+        onDoubledSlotOverwrite(doubleDialog, true);
     });
 
     document.getElementById("doubled_add").addEventListener("click", function() {
-        doubleDialog.close();
+        onDoubledSlotOverwrite(doubleDialog, false)
     });
 
     document.getElementById("doubled_cancel").addEventListener("click", function() {
@@ -30,14 +30,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-async function onDoubledSlotOverwrite(doubleDialog) {
+async function onDoubledSlotOverwrite(doubleDialog, overwrite) {
     const data = await loadModuleList();
     const moduleId = doubleDialog.dataset.module;
     const slotId = doubleDialog.dataset.slot;
     console.log("M: " + moduleId + " S: " + slotId);
     const module = data[moduleId];
     const slot = module.termine[slotId];
-    overwriteSlot(slot, module);
+    overwriteSlot(slot, module, overwrite);
     doubleDialog.close();
 }
 
@@ -207,11 +207,13 @@ function openDoubledSlotDialog(slot, module) {
     doubledDiaglog.showModal();
 }
 
-function overwriteSlot(slot, module) {
+function overwriteSlot(slot, module, overwrite) {
     const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
+    if(overwrite) tableData.innerHTML = "";
+
     const div = document.createElement("div");
-    setClassForSlotType(slot, tableData);
-    tableData.innerHTML = "";
+    setClassForSlotType(slot, div);
+    
     const h4 = document.createElement("h4");
     h4.textContent = module.name + "-" + slot.typ;
 
@@ -228,20 +230,20 @@ function overwriteSlot(slot, module) {
     tableData.appendChild(div);
 }
 
-function setClassForSlotType(slot, tableData) {
-    tableData.classList.remove("vorlesung");
-    tableData.classList.remove("uebung");
-    tableData.classList.remove("tutorium");
+function setClassForSlotType(slot, div) {
+    div.classList.remove("vorlesung");
+    div.classList.remove("uebung");
+    div.classList.remove("tutorium");
 
     switch (slot.typ) {
         case "Vorlesung":
-            tableData.classList.add("vorlesung");
+            div.classList.add("vorlesung");
             break;
         case "Übung":
-            tableData.classList.add("uebung");
+            div.classList.add("uebung");
             break;
         case "Tutorium":
-            tableData.classList.add("tutorium");
+            div.classList.add("tutorium");
             break;
         default:
             break;

@@ -1,25 +1,54 @@
 td,th {
-    border: 1px solid black ;
+    border: 1px solid #262936;
+}
+
+body {
+    background-color: #0D0E12;
+    color: #F3F4F6;
+}
+
+main {
+    display: flex;
+    gap: 20px;
+}
+
+dialog {
+    background-color: #262936;
+    color: #F3F4F6;
+}
+
+#module_overview {
+    width: 30%;
+    border-radius: 8px;
+    border: 1px solid black;
+    background-color: #262936;
 }
 
 #module_selector {
-    padding: 0;
-    margin: 0;
-    background-color: aquamarine;
-    width: 30%;
+    list-style-type: none;
 }
 
-#module_selector li:hover {
-    border: 1px solid red;
+#timed_modules {
+    width: 70%;
 }
 
-#module_selector li:active {
-    background-color: aqua;
+.module:hover {
+    background-color: #303030;
+    border-radius: 8px;
 }
 
-#module_description {
-    background-color: aliceblue;
-    width: 30%;
+.module h3 {
+    font-weight: bold;
+    color: #882222;
+}
+
+.module_description p{
+    background-color: #552211;
+}
+
+.module_register {
+    background-color: #335533;
+    margin-top: 10px;
 }
 
 #module_slots {
@@ -33,5 +62,6 @@ td,th {
 }
 
 #timetable {
-    background-color: darksalmon;
+    width: 100%;
+    height: 100%;
 }

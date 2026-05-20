@@ -22,7 +22,7 @@ async function loadModuleList() {
     console.log("GET FROM " + url);
     try {
         const response = await fetch(url);
-        if(response.ok) return await response.json();
+        if (response.ok) return await response.json();
         else throw new Error("HTTP-Error Status: " + response.status);
     } catch (error) {
         console.error("Fehler beim laden der Moduldaten", error);
@@ -32,54 +32,62 @@ async function loadModuleList() {
 async function fillModuleList() {
     const selector = document.getElementById("module_selector");
     const json = await loadModuleList();
-    for(const module of json) {
+    for (const module of json) {
         const li = createModuleEntry(module);
         selector.appendChild(li);
     }
 }
 
 function createModuleEntry(module) {
+    const li = document.createElement("li");
+    li.dataset.id = module.id;
+    li.classList.add("module");
+
+    const span = document.createElement("h3");
+    span.textContent = module.name;
+    
+    const details = createModuleDescription(module);
+
     const button = document.createElement("button");
-        button.classList.add("module_register");
-        button.textContent= "Anmelden";
-        button.addEventListener("click", event => {
-            openModuleDialog(module);
-        });
+    button.classList.add("module_register");
+    button.textContent = "Anmelden";
+    button.addEventListener("click", event => {
+        openModuleDialog(module);
+    });
 
-        const span = document.createElement("span");
-        span.textContent = module.name;
+    li.appendChild(span);
+    li.appendChild(details);
+    li.appendChild(button);
 
-        const li = document.createElement("li");
-        li.dataset.id = module.id;
-        li.classList.add("module");
-        
-        const details = document.createElement("details");
-        const summary = document.createElement("summary");
-        summary.textContent = "Beschreibung";
+    return li;
+}
 
-        const teacherP = document.createElement("p");
-        teacherP.textContent = "Dozent: " + module.dozent;
+function createModuleDescription(module) {
+    const details = document.createElement("details");
+    details.classList.add("module_description");
 
-        const ectsP = document.createElement("p");
-        ectsP.textContent = "ECTS: " + module.ects;
+    const summary = document.createElement("summary");
+    summary.textContent = "Beschreibung";
 
-        const intervallP = document.createElement("p");
-        intervallP.textContent = "Zeitraum: " + module.starttermin + " - " + module.endtermin;
+    const teacherP = document.createElement("p");
+    teacherP.textContent = "Dozent: " + module.dozent;
 
-        const descriptionP = document.createElement("p");
-        descriptionP.textContent = module.beschreibung
+    const ectsP = document.createElement("p");
+    ectsP.textContent = "ECTS: " + module.ects;
 
-        details.appendChild(summary);
-        details.appendChild(teacherP);
-        details.appendChild(ectsP)
-        details.appendChild(intervallP);
-        details.appendChild(descriptionP);
+    const intervallP = document.createElement("p");
+    intervallP.textContent = "Zeitraum: " + module.starttermin + " - " + module.endtermin;
 
-        li.appendChild(span);
-        li.appendChild(details);
-        li.appendChild(button);
+    const descriptionP = document.createElement("p");
+    descriptionP.textContent = module.beschreibung
 
-        return li;
+    details.appendChild(summary);
+    details.appendChild(teacherP);
+    details.appendChild(ectsP)
+    details.appendChild(intervallP);
+    details.appendChild(descriptionP);
+
+    return details;
 }
 
 async function openModuleDialog(module) {
@@ -87,12 +95,12 @@ async function openModuleDialog(module) {
     slots.innerHTML = "";
 
     let i = 0;
-    for(const slot of module.termine) {
+    for (const slot of module.termine) {
         const li = document.createElement("li");
         li.classList.add("module_slot");
         li.dataset.id = i;
         li.dataset.module = module.id - 1;
-        
+
         const h4 = document.createElement("h4");
         h4.textContent = slot.typ;
 
@@ -111,7 +119,7 @@ async function openModuleDialog(module) {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
 
-        if(slot.typ == "Vorlesung") checkbox.checked = true;
+        if (slot.typ == "Vorlesung") checkbox.checked = true;
 
         li.appendChild(h4);
         li.appendChild(pDay);
@@ -130,14 +138,14 @@ async function openModuleDialog(module) {
 
 async function bookSlots() {
     const data = await loadModuleList();
-    for(const element of document.querySelectorAll("#slot_popup .module_slot")) {
+    for (const element of document.querySelectorAll("#slot_popup .module_slot")) {
         const module = data[element.dataset.module];
         const slot = module.termine[element.dataset.id];
 
         const checkbox = element.querySelector("input[type='checkbox']");
-        if(!checkbox) continue;
-        if(!checkbox.checked) continue;
-    
+        if (!checkbox) continue;
+        if (!checkbox.checked) continue;
+
         const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
         tableData.textContent = module.name + "-" + slot.typ;
     }

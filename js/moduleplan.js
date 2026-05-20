@@ -5,6 +5,8 @@ import "./slotdialog.js";
 import { initSlotDialog, openModuleDialog } from "./slotdialog.js";
 import "./doubledslotdialog.js"
 import { initDoubledSlotDialog } from "./doubledslotdialog.js";
+import "./timetable.js"
+import { updateTimeTable, addSlot } from "./timetable.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     fillModuleList();
@@ -13,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initDoubledSlotDialog();
 
+    updateTimeTable();
 });
-
 
 async function fillModuleList() {
     const selector = document.getElementById("module_selector");

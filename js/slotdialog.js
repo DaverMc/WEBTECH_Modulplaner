@@ -1,5 +1,6 @@
-import { loadModuleList, writeSlot, setClassForSlotType } from "./api.js";
+import { loadModuleList, setClassForSlotType } from "./api.js";
 import { openDoubledSlotDialog } from "./doubledslotdialog.js";
+import { addSlot, updateTimeTable } from "./timetable.js";
 
 export function initSlotDialog() {
     const dialog = document.getElementById("slot_popup");
@@ -32,7 +33,8 @@ async function bookSlots() {
         if(existingH4 && existingH4.textContent != "") {
             openDoubledSlotDialog(slot, module);
         } else {
-            writeSlot(slot, module, false);
+            addSlot(slot, module);
+            updateTimeTable();
         }
     }
 }

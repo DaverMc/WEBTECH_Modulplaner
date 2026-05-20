@@ -140,7 +140,7 @@ h2 {
     gap: 50px;
 }
 
-.popup_button {
+button {
     background-color: #262936;
     border-radius: 5px;
     color: whitesmoke;
@@ -152,4 +152,10 @@ h2 {
 
 #slot_cancel {
     color: red;
+}
+
+#timetable_header {
+    display: flex;
+    gap: 20%;
+    justify-content: center;
 }

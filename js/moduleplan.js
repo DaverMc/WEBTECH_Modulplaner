@@ -64,7 +64,9 @@ function createModuleEntry(module) {
 
 function createModuleDescription(module) {
     const details = document.createElement("details");
-    details.classList.add("module_description");
+
+    const div = document.createElement("div");
+    div.classList.add("module_description");
 
     const summary = document.createElement("summary");
     summary.textContent = "Beschreibung";
@@ -81,11 +83,13 @@ function createModuleDescription(module) {
     const descriptionP = document.createElement("p");
     descriptionP.textContent = module.beschreibung
 
+    div.appendChild(teacherP);
+    div.appendChild(ectsP)
+    div.appendChild(intervallP);
+    div.appendChild(descriptionP);
+
     details.appendChild(summary);
-    details.appendChild(teacherP);
-    details.appendChild(ectsP)
-    details.appendChild(intervallP);
-    details.appendChild(descriptionP);
+    details.appendChild(div);
 
     return details;
 }
@@ -103,12 +107,13 @@ async function openModuleDialog(module) {
 
         const h4 = document.createElement("h4");
         h4.textContent = slot.typ;
+        setClassForSlotType(slot, h4);
 
         const pDay = document.createElement("p");
         pDay.textContent = "Tag: " + slot.tag;
 
         const pBlock = document.createElement("p");
-        pBlock.textContent = "Block: " + slot.block;
+        pBlock.textContent = "Uhrzeit: " + getTimeByBlockId(slot.block)
 
         const pRoom = document.createElement("p");
         pRoom.textContent = "Raum: " + slot.raum;
@@ -136,6 +141,12 @@ async function openModuleDialog(module) {
     dialog.showModal()
 }
 
+function getTimeByBlockId(block) {
+    const tr = document.querySelector("#block" + block);
+    const th = tr.querySelector("th");
+    return th.textContent;
+}
+
 async function bookSlots() {
     const data = await loadModuleList();
     for (const element of document.querySelectorAll("#slot_popup .module_slot")) {
@@ -147,6 +158,39 @@ async function bookSlots() {
         if (!checkbox.checked) continue;
 
         const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
-        tableData.textContent = module.name + "-" + slot.typ;
+        setClassForSlotType(slot, tableData);
+        tableData.innerHTML = "";
+        const h4 = document.createElement("h4");
+        h4.textContent = module.name + "-" + slot.typ;
+
+        const roomP = document.createElement("p");
+        roomP.textContent = slot.raum;
+
+        const profP = document.createElement("p");
+        profP.textContent = module.dozent;
+
+        tableData.appendChild(h4);
+        tableData.appendChild(roomP);
+        tableData.appendChild(profP);
+    }
+}
+
+function setClassForSlotType(slot, tableData) {
+    tableData.classList.remove("vorlesung");
+    tableData.classList.remove("uebung");
+    tableData.classList.remove("tutorium");
+
+    switch (slot.typ) {
+        case "Vorlesung":
+            tableData.classList.add("vorlesung");
+            break;
+        case "Übung":
+            tableData.classList.add("uebung");
+            break;
+        case "Tutorium":
+            tableData.classList.add("tutorium");
+            break;
+        default:
+            break;
     }
 }

@@ -1,5 +1,4 @@
-import { loadModuleList } from "./api.js";
-import { setClassForSlotType, overwriteSlot } from "./slotdialog.js";
+import { loadModuleList, setClassForSlotType, writeSlot } from "./api.js";
 
 export function initDoubledSlotDialog() {
      const doubleDialog = document.getElementById("doubled_slot_popup");
@@ -35,6 +34,6 @@ async function writeDoubledSlot(doubleDialog, overwrite) {
     const slotId = doubleDialog.dataset.slot;
     const module = data[moduleId];
     const slot = module.termine[slotId];
-    overwriteSlot(slot, module, overwrite);
+    writeSlot(slot, module, overwrite);
     doubleDialog.close();
 }

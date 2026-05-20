@@ -1,5 +1,5 @@
 export async function loadModuleList() {
-    const url = `/api/kurse`;
+    const url = "/api/kurse";
     console.log("GET FROM " + url);
     try {
         const response = await fetch(url);
@@ -28,4 +28,9 @@ export function setClassForSlotType(slot, div) {
         default:
             break;
     }
+}
+
+export function getSlot(module, slotId) {
+    for(const s of module.termine) 
+        if(s.id == slotId) return s; 
 }

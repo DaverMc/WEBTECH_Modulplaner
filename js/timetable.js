@@ -1,4 +1,21 @@
-import { loadModuleList, setClassForSlotType } from "./api.js";
+import { loadModuleList, setClassForSlotType, getSlot } from "./api.js";
+
+export async function initTimeTable() {
+
+    changeWeek(0);
+    updateTimeTable();
+
+    document.getElementById("prev_week_button").addEventListener("click", async function() {
+        changeWeek(-1);
+        updateTimeTable();
+    });
+    
+
+    document.getElementById("next_week_button").addEventListener("click", async function() {
+        changeWeek(1);
+        updateTimeTable();
+    });
+}
 
 export async function updateTimeTable() {
     const json = getBookingsJSON();
@@ -19,16 +36,15 @@ export async function updateTimeTable() {
         createSlotElement(slot, module);
     }
 
-}
-
-function getSlot(module, slotId) {
-    for(const s of module.termine) 
-        if(s.id == slotId) return s; 
+    const heading = document.getElementById("timetable_heading");
+    heading.textContent = "Stundenplan - KW-" + getWeek();
 }
 
 function createSlotElement(slot, module) {
     const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
     const div = document.createElement("div");
+    div.dataset.module = module.id - 1;
+    div.dataset.slot = slot.id;
     setClassForSlotType(slot, div);
             
     const h4 = document.createElement("h4");
@@ -50,7 +66,7 @@ function createSlotElement(slot, module) {
 export async function addSlot(slot, module) {
     let json = getBookingsJSON();
     for(const b of json) {
-        if(b.slot == slot.id && b.module + 1 == module.id) return;
+        if(b.slot == slot.id && b.module == module.id - 1) return;
     }
     json.push(createBookingEntry(slot, module));
     console.log(json);
@@ -63,7 +79,7 @@ export async function removeSlot(slot, module) {
 
     let i = 0;
     for(const b of json) {
-        if(b.slot == slot.id && b.module == module.id) break;
+        if(b.slot == slot.id && b.module == module.id -1) break;
         else i++;
     }
 
@@ -77,6 +93,28 @@ function getBookingsJSON() {
     return JSON.parse(jsonS);
 }
 
+export function setBookingNotes(slot, module, notes) {
+    const json = getBookingsJSON();
+    let i = 0;
+    for(const b of json) {
+        if(b.slot == slot.id && b.module == module.id - 1) {
+            json.splice(i, 1);
+            b.notes = notes;
+            json.push(b);
+            setBookingsJSON(json);
+            break;
+        }
+        i++;
+    }
+}
+
+export function getBooking(slot, module) {
+    const json = getBookingsJSON();
+    for(const b of json)
+        if(b.slot == slot.id && b.module == module.id - 1) return b;
+    return []
+}
+
 function setBookingsJSON(json) {
     localStorage.setItem("bookings", JSON.stringify(json));
 }
@@ -84,6 +122,23 @@ function setBookingsJSON(json) {
 function createBookingEntry(slot, module) {
     return {
         module: module.id - 1,
-        slot: slot.id
+        slot: slot.id,
+        notes: ""
     };
+}
+
+function changeWeek(delta) {
+    const raw = localStorage.getItem("week");
+    let json = {week: 1};
+    if(raw) json = JSON.parse(raw);
+    json.week = json.week + delta;
+    if(json.week > 52) json.week = 52;
+    else if(json.week <= 1) json.week = 1;
+    localStorage.setItem("week", JSON.stringify(json));
+}
+
+function getWeek() {
+    const raw = localStorage.getItem("week");
+    if(!raw) return 0;
+    return JSON.parse(raw).week;
 }

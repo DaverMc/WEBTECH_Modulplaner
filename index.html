@@ -19,7 +19,7 @@
         <div id="timed_modules">
             <div id="timetable_header">
                 <button class="header-button" id="prev_week_button"><< vorherige Woche</button>
-                <h2>Stundenplan</h2>
+                <h2 id="timetable_heading">Stundenplan</h2>
                 <button class="header-button" id="next_week_button">nächste Woche >></button>
             </div>
             <table id="timetable">
@@ -102,6 +102,16 @@
             <button class="popup_button" id="doubled_overwrite">Überschreiben</button>
             <button class="popup_button" id="doubled_add">Hinzufügen</button>
             <button class="popup_button" id="doubled_cancel">Abbrechen</button>
+        </div>
+    </dialog>
+
+    <dialog id="edit_slot_popup">
+        <h2>Termin Bearbeiten</h2>
+        <form></form>
+        <div class="popup_buttons">
+            <button class="popup_button" id="edit_submit">Speichern</button>
+            <button class="popup_button" id="edit_drop">Abmelden</button>
+            <button class="popup_button" id="edit_cancel">Abbrechen</button>
         </div>
     </dialog>
 </body>

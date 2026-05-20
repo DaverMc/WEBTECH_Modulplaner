@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Modulplaner</title>
+    <meta content="">
+    <link href="css/styles.css" rel="stylesheet">
+    </link>
+    <script src="js/moduleplan.js"></script>
+</head>
+
+<body>
+    <main>
+    <h2>Modulübersicht</h2>
+    <ul id="module_selector"></ul>
+
+
+    <h2>Stundenplan</h2>
+    <table id="timetable">
+        <thead>
+            <tr>
+                <th>Uhrzeit / Tag</th>
+                <th>Montag</th>
+                <th>Dienstag</th>
+                <th>Mittwoch</th>
+                <th>Donnerstag</th>
+                <th>Freitag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="block1">
+                <th>8:15 - 9:45</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+            <tr id="block2">
+                <th>10:15 - 11:45</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+            <tr id="block3">
+                <th>12:30 - 14:00</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+            <tr id="block4">
+                <th>14:15 - 15:45</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+            <tr id="block5">
+                <th>16:00 - 17:30</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+            <tr id="block6">
+                <th>17:30 - 19:00</th>
+                <td class="montag"></td>
+                <td class="dienstag"></td>
+                <td class="mittwoch"></td>
+                <td class="donnerstag"></td>
+                <td class="freitag"></td>
+            </tr>
+        </tbody>
+    </table>
+    </main>
+
+    <dialog id="slot_popup">
+        <h2>Modul-Termine</h2>
+        <ul id ="module_slots" method="dialog"></ul>
+        <button id="popup_submit">Speichern</button>
+        <button id="popup_cancel">Abbrechen</button>
+    </dialog>
+</body>
+</html>

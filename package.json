@@ -1,0 +1,14 @@
+{
+  "name": "moduleplan",
+  "version": "1.0.0",
+  "description": "Modul- Stundenplaner",
+  "license": "ISC",
+  "author": "Dennis Fleer",
+  "type": "module",
+  "scripts": {
+      "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

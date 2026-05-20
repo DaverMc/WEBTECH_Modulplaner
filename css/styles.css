@@ -1,0 +1,37 @@
+td,th {
+    border: 1px solid black ;
+}
+
+#module_selector {
+    padding: 0;
+    margin: 0;
+    background-color: aquamarine;
+    width: 30%;
+}
+
+#module_selector li:hover {
+    border: 1px solid red;
+}
+
+#module_selector li:active {
+    background-color: aqua;
+}
+
+#module_description {
+    background-color: aliceblue;
+    width: 30%;
+}
+
+#module_slots {
+    display: flex;
+    padding: 10px;
+    list-style-type: none;
+}
+
+#module_slots li:hover {
+    border: 1px solid green;
+}
+
+#timetable {
+    background-color: darksalmon;
+}

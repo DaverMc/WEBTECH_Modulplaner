@@ -7,7 +7,7 @@ td,th {
 
 body {
     background-color: #0D0E12;
-    color: #F3F4F6;
+    color: #882222;
 }
 
 main {
@@ -100,6 +100,7 @@ h2 {
     margin-top: 10px;
     border-radius: 5px;
     width: 70%;
+    color: whitesmoke;
 }
 
 #module_slots {
@@ -143,7 +144,7 @@ h2 {
 button {
     background-color: #262936;
     border-radius: 5px;
-    color: whitesmoke;
+    color: #882222
 }
 
 #slot_submit {

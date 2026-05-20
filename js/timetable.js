@@ -1,4 +1,4 @@
-import { loadModuleList, setClassForSlotType, getSlot } from "./api.js";
+import { loadModuleList, setClassForSlotType, getSlot, getDate } from "./api.js";
 
 export async function initTimeTable() {
 
@@ -33,11 +33,26 @@ export async function updateTimeTable() {
         const module = modulesData[moduleID];
         let slot = getSlot(module, slotId);
 
+        if(slot.wiederholung == "zweiwöchentlich" && getWeek() % 2 != 0) continue;
         createSlotElement(slot, module);
     }
 
     const heading = document.getElementById("timetable_heading");
     heading.textContent = "Stundenplan - KW-" + getWeek();
+
+    setDayDates(getWeek());
+}
+
+function setDayDates(week) {
+    let i = 0;
+    for(const th of document.querySelectorAll("thead tr th")) {
+        let day = th.textContent;
+        const oI = day.indexOf(" ");
+        if(oI != -1) day = day.substring(0, oI);
+        const date = getDate(week, i);
+        th.textContent = day + " " + date.toLocaleDateString("de-DE");
+        i++;
+    }
 }
 
 function createSlotElement(slot, module) {

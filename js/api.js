@@ -34,3 +34,10 @@ export function getSlot(module, slotId) {
     for(const s of module.termine) 
         if(s.id == slotId) return s; 
 }
+
+export function getDate(week, day) {
+    const d = (week - 1) * 7 + day;
+    const date = new Date(2025, 11, 29);
+    date.setDate(date.getDate() + d);
+    return date;
+}

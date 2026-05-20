@@ -5,6 +5,7 @@ export function initEditDialog() {
     for(const td of document.querySelectorAll("#timetable td")) {
         td.addEventListener("click", event => {
             const div = td.querySelector("div");
+            if(!div) return;
             const moduleId = div.dataset.module;
             const slotId = div.dataset.slot;
             openEditDialog(moduleId, slotId);

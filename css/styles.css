@@ -134,3 +134,23 @@ h2 {
     background-color: orange;
     color: black;
 }
+
+.popup_button {
+    background-color: #262936;
+    border-radius: 5px;
+}
+
+#popup_submit {
+    color: lime;
+}
+
+#popup_cancel {
+    color: red;
+}
+
+#popup_buttons {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 50px;
+}

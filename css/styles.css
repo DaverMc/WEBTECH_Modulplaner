@@ -36,8 +36,6 @@ h2 {
     padding-bottom: 10px;
 }
 
-
-
 #module_selector {
     list-style-type: none;
     padding: 0;
@@ -135,22 +133,22 @@ h2 {
     color: black;
 }
 
+.popup_buttons {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 50px;
+}
+
 .popup_button {
     background-color: #262936;
     border-radius: 5px;
 }
 
-#popup_submit {
+#slot_submit {
     color: lime;
 }
 
-#popup_cancel {
+#slot_cancel {
     color: red;
-}
-
-#popup_buttons {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    gap: 50px;
 }

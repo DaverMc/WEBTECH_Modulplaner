@@ -86,9 +86,18 @@
     <dialog id="slot_popup">
         <h2>Modul-Termine</h2>
         <ul id="module_slots"></ul>
-        <div id="popup_buttons">
-            <button class="popup_button" id="popup_submit">Speichern</button>
-            <button class="popup_button" id="popup_cancel">Abbrechen</button>
+        <div class="popup_buttons">
+            <button class="popup_button" id="slot_submit">Buchen</button>
+            <button class="popup_button" id="slot_cancel">Abbrechen</button>
+        </div>
+    </dialog>
+
+    <dialog id="doubled_slot_popup">
+        <h2>Achtung doppelte Termine!</h2>
+        <div class="popup_buttons">
+            <button class="popup_button" id="doubled_overwrite">Überschreiben</button>
+            <button class="popup_button" id="doubled_add">Hinzufügen</button>
+            <button class="popup_button" id="doubled_cancel">Abbrechen</button>
         </div>
     </dialog>
 </body>

@@ -5,17 +5,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const dialog = document.getElementById("slot_popup");
 
-    const popupSubmit = document.getElementById("popup_submit");
-    popupSubmit.addEventListener("click", function () {
+    const slotSubmit = document.getElementById("slot_submit");
+    slotSubmit.addEventListener("click", function () {
         bookSlots();
         dialog.close();
     });
 
-    const popup_cancel = document.getElementById("popup_cancel");
-    popup_cancel.addEventListener("click", function () {
+    const slotCancel = document.getElementById("slot_cancel");
+    slotCancel.addEventListener("click", function () {
         dialog.close();
     });
+
+    const doubleDialog = document.getElementById("doubled_slot_popup");
+    document.getElementById("doubled_overwrite").addEventListener("click", function() {
+        onDoubledSlotOverwrite(doubleDialog);
+    });
+
+    document.getElementById("doubled_add").addEventListener("click", function() {
+        doubleDialog.close();
+    });
+
+    document.getElementById("doubled_cancel").addEventListener("click", function() {
+        doubleDialog.close();
+    });
 });
+
+async function onDoubledSlotOverwrite(doubleDialog) {
+    const data = await loadModuleList();
+    const moduleId = doubleDialog.dataset.module;
+    const slotId = doubleDialog.dataset.slot;
+    console.log("M: " + moduleId + " S: " + slotId);
+    const module = data[moduleId];
+    const slot = module.termine[slotId];
+    overwriteSlot(slot, module);
+    doubleDialog.close();
+}
 
 async function loadModuleList() {
     const url = `/api/kurse`;
@@ -158,21 +182,50 @@ async function bookSlots() {
         if (!checkbox.checked) continue;
 
         const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
-        setClassForSlotType(slot, tableData);
-        tableData.innerHTML = "";
-        const h4 = document.createElement("h4");
-        h4.textContent = module.name + "-" + slot.typ;
+        const existingH4 = tableData.querySelector("h4");
+        const newHeader = module.name + "-" + slot.typ;
 
-        const roomP = document.createElement("p");
-        roomP.textContent = slot.raum;
+        if(existingH4 && existingH4.textContent != "") {
+            openDoubledSlotDialog(slot, module);
+        } else {
+            overwriteSlot(slot, module);
+        }
 
-        const profP = document.createElement("p");
-        profP.textContent = module.dozent;
-
-        tableData.appendChild(h4);
-        tableData.appendChild(roomP);
-        tableData.appendChild(profP);
+        
     }
+}
+
+function openDoubledSlotDialog(slot, module) {
+    const doubledDiaglog = document.getElementById("doubled_slot_popup");
+    doubledDiaglog.dataset.module = module.id - 1;
+    let i = 0;
+    for(const s of module.termine) {
+        if(s.id == slot.id) break;
+        i++;
+    }
+    doubledDiaglog.dataset.slot = i;
+    doubledDiaglog.showModal();
+}
+
+function overwriteSlot(slot, module) {
+    const tableData = document.querySelector("#block" + slot.block + " ." + slot.tag.toLowerCase());
+    const div = document.createElement("div");
+    setClassForSlotType(slot, tableData);
+    tableData.innerHTML = "";
+    const h4 = document.createElement("h4");
+    h4.textContent = module.name + "-" + slot.typ;
+
+    const roomP = document.createElement("p");
+    roomP.textContent = slot.raum;
+
+    const profP = document.createElement("p");
+    profP.textContent = module.dozent;
+
+    div.appendChild(h4);
+    div.appendChild(roomP);
+    div.appendChild(profP);
+
+    tableData.appendChild(div);
 }
 
 function setClassForSlotType(slot, tableData) {
